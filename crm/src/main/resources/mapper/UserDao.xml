@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.crm.settings.dao.UserDao">
+
+    <resultMap type="com.bjpowernode.crm.settings.entity.User" id="BaseMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="loginAct" column="login_act" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="loginPwd" column="login_pwd" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="expireTime" column="expire_time" jdbcType="VARCHAR"/>
+        <result property="lockState" column="lock_state" jdbcType="VARCHAR"/>
+        <result property="deptNo" column="dept_no" jdbcType="VARCHAR"/>
+        <result property="allowIps" column="allow_ips" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="editTime" column="edit_time" jdbcType="VARCHAR"/>
+        <result property="editBy" column="edit_by" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectById" parameterType="string" resultType="com.bjpowernode.crm.settings.entity.User">
+        select
+          id, login_act, name, login_pwd, email, expire_time, lock_state, dept_no, allow_ips, create_time, create_by, edit_time, edit_by
+        from tbl_user
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="select" parameterType="com.bjpowernode.crm.settings.entity.User" resultMap="BaseMap">
+        select
+          id, login_act, name, login_pwd, email, expire_time, lock_state, dept_no, allow_ips, create_time, create_by, edit_time, edit_by
+        from tbl_user
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%', #{name}, '%')
+            </if>
+            <if test="lockState != null and lockState != ''">
+                and lock_state = #{lockState}
+            </if>
+            <if test="deptNo != null and deptNo != ''">
+                and dept_no = #{deptNo}
+            </if>
+            <!--失效时间条件查询-->
+            <choose>
+                <when test="startTime!=null and startTime!='' and endTime!=null and endTime!=''">
+                    and expire_time between #{startTime} and #{endTime}
+                </when>
+                <when test="startTime!=null and startTime!=''">
+                    and expire_time >= #{startTime}
+                </when>
+                <when test="endTime!=null and endTime!=''">
+                    and expire_time <![CDATA[ <= ]]> #{endTime}
+                </when>
+            </choose>
+        </where>
+        order by create_time desc
+    </select>
+    <select id="selectByLoginAct" parameterType="string" resultType="com.bjpowernode.crm.settings.entity.User">
+        select
+            id, login_act, name, login_pwd, email, expire_time, lock_state, dept_no, allow_ips, create_time, create_by, edit_time, edit_by
+        from tbl_user
+        where login_act = #{loginAct}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" parameterType="com.bjpowernode.crm.settings.entity.User" keyProperty="id" useGeneratedKeys="true">
+        insert into tbl_user(id, login_act, name, login_pwd, email, expire_time, lock_state, dept_no, allow_ips, create_time, create_by, edit_time, edit_by)
+        values (#{id}, #{loginAct}, #{name}, #{loginPwd}, #{email}, #{expireTime}, #{lockState}, #{deptNo}, #{allowIps}, #{createTime}, #{createBy}, #{editTime}, #{editBy})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.bjpowernode.crm.settings.entity.User">
+        update tbl_user
+        <set>
+            <if test="loginAct != null and loginAct != ''">
+                login_act = #{loginAct},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="loginPwd != null and loginPwd != ''">
+                login_pwd = #{loginPwd},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="expireTime != null">
+                expire_time = #{expireTime},
+            </if>
+            <if test="lockState != null and lockState != ''">
+                lock_state = #{lockState},
+            </if>
+            <if test="deptNo != null">
+                dept_no = #{deptNo},
+            </if>
+            <if test="allowIps != null">
+                allow_ips = #{allowIps},
+            </if>
+            <if test="editTime != null and editTime != ''">
+                edit_time = #{editTime},
+            </if>
+            <if test="editBy != null and editBy != ''">
+                edit_by = #{editBy},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="string">
+        delete from tbl_user where id = #{id}
+    </delete>
+
+    <!--通过主键批量删除-->
+    <delete id="deleteBatch" parameterType="string">
+        delete from tbl_user where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
+

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.crm.workbench.dao.ActivityRemarkDao">
+
+    <resultMap type="com.bjpowernode.crm.workbench.entity.ActivityRemark" id="BaseMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="noteContent" column="note_content" jdbcType="VARCHAR"/>
+        <result property="editFlag" column="edit_flag" jdbcType="VARCHAR"/>
+        <result property="activityId" column="activity_id" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="editTime" column="edit_time" jdbcType="VARCHAR"/>
+        <result property="editBy" column="edit_by" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectById" parameterType="string" resultType="com.bjpowernode.crm.workbench.entity.ActivityRemark">
+        select
+            id, note_content, edit_flag, activity_id, create_time, create_by, edit_time, edit_by
+        from tbl_activity_remark
+        where id=#{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="select" parameterType="string" resultMap="BaseMap">
+        select
+            id, note_content, edit_flag, activity_id, create_time, create_by, edit_time, edit_by
+        from tbl_activity_remark
+        where activity_id=#{activityId}
+        order by create_time desc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" parameterType="com.bjpowernode.crm.workbench.entity.ActivityRemark" keyProperty="id" useGeneratedKeys="true">
+        insert into tbl_activity_remark(id, note_content, edit_flag, create_time, create_by, edit_time, edit_by, activity_id)
+        values (#{id}, #{noteContent}, '0', #{createTime}, #{createBy}, #{editTime}, #{editBy}, #{activityId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.bjpowernode.crm.workbench.entity.ActivityRemark">
+        update tbl_activity_remark
+        <set>
+            <if test="noteContent != null and noteContent != ''">
+                note_content = #{noteContent},
+            </if>
+            <if test="editTime != null and editTime != ''">
+                edit_time = #{editTime},
+            </if>
+            <if test="editBy != null and editBy != ''">
+                edit_by = #{editBy},
+            </if>
+            edit_flag = '1'
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="string">
+        delete from tbl_activity_remark where id = #{id}
+    </delete>
+</mapper>
+

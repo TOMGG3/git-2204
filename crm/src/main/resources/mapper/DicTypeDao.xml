@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.crm.settings.dao.DicTypeDao">
+
+    <resultMap type="com.bjpowernode.crm.settings.entity.DicType" id="BaseMap">
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectById" parameterType="string" resultMap="BaseMap">
+        select
+          code, name, description
+        from tbl_dic_type
+        where code = #{code}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="select" parameterType="com.bjpowernode.crm.settings.entity.DicType" resultMap="BaseMap">
+        select
+            code, name, description
+        from tbl_dic_type
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%', #{name}, '%')
+            </if>
+        </where>
+        order by code
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" parameterType="com.bjpowernode.crm.settings.entity.DicType" keyProperty="id" useGeneratedKeys="true">
+        insert into tbl_dic_type(code, name, description)
+        values (#{code}, #{name}, #{description})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.bjpowernode.crm.settings.entity.DicType">
+        update tbl_dic_type
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+        </set>
+        where code = #{code}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="string">
+        delete from tbl_dic_type where code = #{code}
+    </delete>
+
+    <!--通过主键批量删除-->
+    <delete id="deleteBatch" parameterType="string">
+        delete from tbl_dic_type where code in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
+

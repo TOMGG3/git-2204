@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.crm.workbench.dao.ActivityDao">
+
+    <resultMap type="com.bjpowernode.crm.workbench.entity.Activity" id="BaseMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="owner" column="owner" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="startDate" column="start_date" jdbcType="VARCHAR"/>
+        <result property="endDate" column="end_date" jdbcType="VARCHAR"/>
+        <result property="cost" column="cost" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="editTime" column="edit_time" jdbcType="VARCHAR"/>
+        <result property="editBy" column="edit_by" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="selectById" parameterType="string" resultType="com.bjpowernode.crm.workbench.entity.Activity">
+        select
+            a.id, a.owner, a.name, b.name user_name, a.start_date, a.end_date, a.cost, a.description, a.create_time, a.create_by, a.edit_time, a.edit_by
+        from tbl_activity a join tbl_user b on a.owner=b.id
+        where a.id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="select" parameterType="com.bjpowernode.crm.workbench.entity.Activity" resultMap="BaseMap">
+        select
+            a.id, a.owner, a.name, b.name user_name, a.start_date, a.end_date, a.cost, a.description, a.create_time, a.create_by, a.edit_time, a.edit_by
+        from tbl_activity a join tbl_user b on a.owner=b.id
+        <where>
+            <if test="name != null and name != ''">
+                and a.name like concat('%', #{name}, '%')
+            </if>
+            <if test="owner != null and owner != ''">
+                and a.owner = #{owner}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                and a.start_date = #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and a.end_date = #{endDate}
+            </if>
+        </where>
+        order by a.create_time desc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" parameterType="com.bjpowernode.crm.workbench.entity.Activity" keyProperty="id" useGeneratedKeys="true">
+        insert into tbl_activity(id, owner, name, start_date, end_date, cost, description, create_time, create_by, edit_time, edit_by)
+        values (#{id}, #{owner}, #{name}, #{startDate}, #{endDate}, #{cost}, #{description}, #{createTime}, #{createBy}, #{editTime}, #{editBy})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update" parameterType="com.bjpowernode.crm.workbench.entity.Activity">
+        update tbl_activity
+        <set>
+            <if test="owner != null and owner != ''">
+                owner = #{owner},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="startDate != null and startDate != ''">
+                start_date = #{startDate},
+            </if>
+            <if test="endDate != null and endDate != ''">
+                end_date = #{endDate},
+            </if>
+            <if test="cost != null and cost != ''">
+                cost = #{cost},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="editTime != null and editTime != ''">
+                edit_time = #{editTime},
+            </if>
+            <if test="editBy != null and editBy != ''">
+                edit_by = #{editBy},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById" parameterType="string">
+        delete from tbl_activity where id = #{id}
+    </delete>
+
+    <!--通过主键批量删除-->
+    <delete id="deleteBatch" parameterType="string">
+        delete from tbl_activity where id in
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
+

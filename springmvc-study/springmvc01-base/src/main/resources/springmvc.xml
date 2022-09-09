@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--组件扫描-->
+    <context:component-scan base-package="com.bjpowernode"/>
+    <!--配置处理器映射器-->
+    <!--
+    RequestMappingHandlerMapping和RequestMappingHandlerAdapter
+    基于注解的处理器映射器和适配器
+    -->
+<!--    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"/>-->
+    <!--配置处理器适配器-->
+<!--    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"/>-->
+    <!--
+    简化标签：
+    1.配置处理器映射器
+    2.配置处理器适配器
+    3.消息转换器
+    4.数据校验器...
+    -->
+    <mvc:annotation-driven/>
+    <!--配置视图解析器-->
+    <!--InternalResourceViewResolver JSP视图的解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!--页面跳转路径的公共前缀-->
+        <property name="prefix" value="/pages/"/>
+        <!--页面跳转路径的公共后缀-->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>

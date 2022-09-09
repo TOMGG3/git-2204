@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--配置bean-->
+    <bean id="userDao" class="com.bjpowernode.dao.impl.UserDaoImpl"/>
+    <bean id="studentDao" class="com.bjpowernode.dao.impl.StudentDaoImpl"/>
+    <bean id="log" class="com.bjpowernode.aspect.LogAspect"/>
+    <bean id="other" class="com.bjpowernode.aspect.OtherAspect"/>
+
+    <!--配置AOP-->
+    <aop:config>
+        <!--配置公共切点表达式-->
+        <aop:pointcut id="exp" expression="execution(* com.bjpowernode.dao.impl.*Impl.*(..))"/>
+        <!--配置切面-->
+        <aop:aspect ref="log" order="2">
+            <!--配置通知
+            <aop:before> 前置通知
+            <aop:after> 后置通知
+            <aop:after-returning> 返回通知
+            <aop:after-throwing> 异常通知
+            <aop:around> 环绕通知
+
+            属性：
+            method 切面中的方法
+            pointcut 切入点，切点表达式
+            returning 在返回通知中独有的，配置通知方法中接收目标方法返回值的一个参数
+            throwing 在异常通知中独有的，配置通知方法中接收目标方法抛出异常对象
+
+            切点表达式: 是通过表达式的方式来描述多个方法
+            编写规则是以execution()包裹起来的
+            1.单个方法
+            语法：execution(方法访问修饰符 方法返回值类型 方法所在的包名.类名.方法名(参数类型,))
+            例如：execution(public void com.bjpowernode.dao.impl.UserDaoImpl.insert())
+            2.多个方法: 通配符*
+            语法：execution(* *.*.*(..))
+            第一个星：不限制方法访问修饰符和返回值类型
+            第二个星：不限制方法所在包
+            第三个星：不限制方法所在类
+            第四个星：不限制方法的名称
+            两个点：不吸纳之方法的参数个数与类型
+            例如：execution(* com.bjpowernode.dao.impl.UserDaoImpl.*(..))
+            例如：execution(* com.bjpowernode.dao.impl.*Impl.*(..))
+            例如：execution(* com.bjpowernode.*.dao.impl.*Impl.*(..))
+            -->
+<!--            <aop:before method="beforeMethod" pointcut="execution(public void com.bjpowernode.dao.impl.UserDaoImpl.insert())"/>-->
+            <aop:before method="beforeMethod" pointcut-ref="exp"/>
+<!--            <aop:after method="afterMethod" pointcut="execution(* com.bjpowernode.dao.impl.*Impl.*(..))"/>-->
+            <aop:after method="afterMethod" pointcut-ref="exp"/>
+            <aop:after-returning method="returnMethod" pointcut="execution(* com.bjpowernode.dao.impl.UserDaoImpl.*(..))"
+                            returning="result"/>
+<!--            <aop:after-throwing method="throwMethod" pointcut="execution(* com.bjpowernode.dao.impl.*Impl.*(..))"-->
+<!--                            throwing="ex"/>-->
+            <aop:after-throwing method="throwMethod" pointcut-ref="exp" throwing="ex"/>
+<!--            <aop:around method="aroundMethod" pointcut="execution(* com.bjpowernode.dao.impl.*Impl.*(..))"/>-->
+        </aop:aspect>
+        <!--配置第二个切面
+        多个切面时，前置通知配置在前先执行，配置在后后执行
+                 后置通知则相反，配置在前后执行，配置在后先执行
+        优先级：切面的执行顺序
+        属性order，值为正整数
+        优先级越大越先执行，优先级越小越后执行。数字值越小有效即越大
+        -->
+        <aop:aspect ref="other" order="1">
+            <aop:before method="before" pointcut="execution(* com.bjpowernode.dao.impl.StudentDaoImpl.insert())"/>
+        </aop:aspect>
+    </aop:config>
+</beans>

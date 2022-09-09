@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--废弃：加载properties-->
+<!--    <properties resource="db.properties"></properties>-->
+
+    <!--保留：全局设置-->
+    <settings>
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>
+
+    <!--保留：类型别名-->
+    <typeAliases>
+        <package name="com.bjpowernode.entity"/>
+    </typeAliases>
+
+    <!--保留：插件-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor" />
+    </plugins>
+
+    <!--废弃：环境-->
+<!--    <environments default="mysql">-->
+<!--        <environment id="mysql">-->
+<!--            <transactionManager type="JDBC"></transactionManager>-->
+<!--            <dataSource type="POOLED">-->
+<!--                <property name="driver" value="${driver}"/>-->
+<!--                <property name="url" value="${url}"/>-->
+<!--                <property name="username" value="${user}"/>-->
+<!--                <property name="password" value="${pass}"/>-->
+<!--            </dataSource>-->
+<!--        </environment>-->
+<!--    </environments>-->
+
+    <!--废弃：映射文件-->
+<!--    <mappers>-->
+<!--        <mapper resource="com/bjpowernode/dao2/AdminDao.xml"></mapper>-->
+<!--        <package name="com.bjpowernode.dao"/>-->
+<!--    </mappers>-->
+</configuration>

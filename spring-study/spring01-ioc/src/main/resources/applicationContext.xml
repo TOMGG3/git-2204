@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd"
+       default-autowire="byName">
+
+    <!--配置Bean
+    id:该对象的唯一标识
+    class: 该对象的类的全限定名（类的全名称）com.bjpowernode.bean.HelloWorld
+    -->
+    <bean id="helloworld" class="com.bjpowernode.bean.HelloWorld"/>
+    <!--设置主bean-->
+    <bean id="h2" class="com.bjpowernode.bean.HelloWorld" primary="true"/>
+
+    <bean id="book" class="com.bjpowernode.bean.Book" scope="prototype"/>
+
+    <bean id="dog" class="com.bjpowernode.bean.Dog" init-method="init" destroy-method="destroy">
+        <property name="name" value="哈士奇"/>
+    </bean>
+
+    <!--bean的依赖关系：被依赖的bean会优先于依赖bean创建-->
+    <bean id="emp" class="com.bjpowernode.bean.Emp" depends-on="dept"/>
+    <bean id="dept" class="com.bjpowernode.bean.Dept"/>
+
+    <!--静态工厂配置Bean-->
+    <bean id="cat1" class="com.bjpowernode.factory.CatStaticFactory" factory-method="getInstance"/>
+
+    <!--实例工厂配置Bean-->
+    <bean id="factory" class="com.bjpowernode.factory.CatInstanceFactory"/>
+    <bean id="cat2" factory-bean="factory" factory-method="getInstance"/>
+
+    <!--FactoryBean-->
+    <bean id="cat3" class="com.bjpowernode.factory.CatFactoryBean"/>
+
+    <!--构造方法依赖注入-->
+    <bean id="car1" class="com.bjpowernode.bean.Car">
+        <!--
+        <constructor-arg>构造方法参数
+        value参数值
+        index参数的位置
+        name 参数名称
+        type 参数类型
+        -->
+        <constructor-arg value="90000.0" index="2"/>
+        <constructor-arg value="4" index="3"/>
+        <constructor-arg value="轿车" index="1"/>
+        <constructor-arg value="大众" index="0"/>
+    </bean>
+    <bean id="car2" class="com.bjpowernode.bean.Car">
+        <constructor-arg value="5" name="doors"/>
+        <constructor-arg value="120000" name="price"/>
+        <constructor-arg value="越野" name="type"/>
+        <constructor-arg value="奥迪" name="name"/>
+    </bean>
+
+    <!--通过set方法依赖注入-->
+    <bean id="stu" class="com.bjpowernode.bean.Student">
+        <!--
+        name 成员变量名称（set方法名称去除set单词之后，首字母小写的名称）
+        value 简单类型的属性值
+        -->
+        <property name="name" value="小明"/>
+        <property name="age" value="20"/>
+        <property name="score" value="96.7"/>
+        <!--spring中日期类确实是简单类型，但是其默认格式为yyyy/MM/dd-->
+        <property name="birthday" value="1999/08/19"/>
+        <!--数组-->
+        <property name="courseName">
+            <array>
+                <value>Mysql</value>
+                <value>Html</value>
+                <value>Mybatis</value>
+                <value>Spring</value>
+            </array>
+        </property>
+        <!--list集合-->
+        <property name="list">
+            <list>
+                <value>aaa</value>
+                <value>bbb</value>
+                <value>ccc</value>
+            </list>
+        </property>
+        <!--set集合-->
+        <property name="set">
+            <set>
+                <value>10</value>
+                <value>20</value>
+                <value>30</value>
+                <value>40</value>
+            </set>
+        </property>
+        <!--map集合-->
+        <property name="map">
+            <map>
+                <entry key="one" value="1.1"/>
+                <entry key="two" value="2.3"/>
+                <entry key="three" value="3.14"/>
+                <entry key="four" value="4.69"/>
+            </map>
+        </property>
+        <property name="props">
+            <props>
+                <prop key="jdbc.driver">com.mysql.jdbc.Driver</prop>
+                <prop key="jdbc.url">mysql:jdbc://localhost:3306/test</prop>
+                <prop key="jdbc.username">root</prop>
+                <prop key="jdbc.password">123</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--自定义类型的数据依赖注入-->
+    <bean id="customer1" class="com.bjpowernode.bean.Customer">
+        <property name="username" value="zhangsan"/>
+        <property name="password" value="123"/>
+    </bean>
+    <bean id="customer2" class="com.bjpowernode.bean.Customer">
+        <property name="username" value="lisi"/>
+        <property name="password" value="456"/>
+    </bean>
+    <bean id="orders1" class="com.bjpowernode.bean.Orders">
+        <property name="orderNum" value="XA20220802001"/>
+        <property name="totalPrice" value="1999.9"/>
+        <!--引用其他Bean对象-->
+        <property name="customer" ref="customer1"/>
+    </bean>
+    <bean id="orders2" class="com.bjpowernode.bean.Orders">
+        <property name="orderNum" value="XA20220802201"/>
+        <property name="totalPrice" value="369"/>
+        <property name="customer">
+            <ref bean="customer2"/>
+        </property>
+    </bean>
+    <bean id="orders3" class="com.bjpowernode.bean.Orders">
+        <property name="orderNum" value="XA20220802333"/>
+        <property name="totalPrice" value="1234"/>
+        <property name="customer">
+            <!--内部bean-->
+            <bean class="com.bjpowernode.bean.Customer">
+                <property name="username" value="王五"/>
+                <property name="password" value="123456"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!--自动注入：自动装配-->
+    <bean id="department" class="com.bjpowernode.bean.Department">
+        <property name="id" value="10"/>
+        <property name="dname" value="研发部"/>
+    </bean>
+    <bean id="d2" class="com.bjpowernode.bean.Department" primary="true">
+        <property name="id" value="20"/>
+        <property name="dname" value="运维部"/>
+    </bean>
+    <bean id="employee" class="com.bjpowernode.bean.Employee" autowire="default">
+        <property name="id" value="1001"/>
+        <property name="ename" value="汤姆"/>
+    </bean>
+
+    <!--组件扫描
+    base-package: 扫描基础包，基础包下所有的类以及子包下所有类中的注解将会生效
+    -->
+    <context:component-scan base-package="com.bjpowernode"/>
+    <bean id="addr2" class="com.bjpowernode.bean.Address">
+        <property name="city" value="北京市"/>
+        <property name="area" value="海淀区"/>
+        <property name="street" value="人民路"/>
+    </bean>
+</beans>

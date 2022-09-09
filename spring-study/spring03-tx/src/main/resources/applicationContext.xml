@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+       https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--配置组件扫描-->
+    <context:component-scan base-package="com.bjpowernode"/>
+    <!--加载第三方properties-->
+    <context:property-placeholder location="classpath:db.properties"/>
+    <!--数据源：类似于mybatis中的环境配置
+    DriverManagerDataSource 是spring-jdbc模块中提供的内置数据源
+    -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.mysql.driver}"/>
+        <property name="url" value="${jdbc.mysql.url}"/>
+        <property name="username" value="${jdbc.mysql.username}"/>
+        <property name="password" value="${jdbc.mysql.password}"/>
+    </bean>
+    <!--配置SqlSessionFactory对象
+    SqlSessionFactory交给spring的IOC容器来管理
+    -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--注入数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--加载mybatis的核心配置文件-->
+        <property name="configLocation" value="classpath:mybatis.xml"/>
+        <!--加载mapper映射文件，通过通配符实现批量加载-->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"/>
+    </bean>
+    <!--单个配置mapper代理对象-->
+<!--    <bean id="deptDao" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+<!--        &lt;!&ndash;注入SqlSessionFactory对象&ndash;&gt;-->
+<!--        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+<!--        &lt;!&ndash;指定接口的全限定名&ndash;&gt;-->
+<!--        <property name="mapperInterface" value="com.bjpowernode.dao.DeptDao"/>-->
+<!--    </bean>-->
+<!--    <bean id="accountDao" class="org.mybatis.spring.mapper.MapperFactoryBean">-->
+<!--        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>-->
+<!--        <property name="mapperInterface" value="com.bjpowernode.dao.AccountDao"/>-->
+<!--    </bean>-->
+    <!--批量配置mapper代理对象
+    指定mapper接口所在的包，当前配置的类对扫描指定包下所有的mapper接口，并且每一个接口生成mapper代理对象
+    最后放入ioc容器
+    -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--注入SqlSessionFactory对象-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!--扫描基础包,如果有多个包需要扫描，以逗号间隔即可-->
+        <property name="basePackage" value="com.bjpowernode.dao"/>
+    </bean>
+
+    <!--1.事务管理器：由spring提供的事务管理的切面-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--注入数据源对象-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--2.配置事务-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!--事务属性：事务的特征-->
+        <tx:attributes>
+            <tx:method name="transferMoney" propagation="REQUIRES_NEW" rollback-for="java.lang.Exception"
+                        timeout="4"/>
+            <tx:method name="payOrder" propagation="REQUIRED" isolation="DEFAULT"/>
+            <!--使用通配符配置属性-->
+            <tx:method name="select*" read-only="true" rollback-for="java.lang.Exception"/>
+            <tx:method name="list*" read-only="true" rollback-for="java.lang.Exception"/>
+            <tx:method name="page*" read-only="true" rollback-for="java.lang.Exception"/>
+            <tx:method name="get*" read-only="true" rollback-for="java.lang.Exception"/>
+            <tx:method name="find*" read-only="true" rollback-for="java.lang.Exception"/>
+            <tx:method name="query*" read-only="true" rollback-for="java.lang.Exception"/>
+            <tx:method name="insert*" rollback-for="java.lang.Exception"/>
+            <tx:method name="save*" rollback-for="java.lang.Exception"/>
+            <tx:method name="add*" rollback-for="java.lang.Exception"/>
+            <tx:method name="edit*" rollback-for="java.lang.Exception"/>
+            <tx:method name="update*" rollback-for="java.lang.Exception"/>
+            <tx:method name="delete*" rollback-for="java.lang.Exception"/>
+            <tx:method name="del*" rollback-for="java.lang.Exception"/>
+            <tx:method name="remove*" rollback-for="java.lang.Exception"/>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--3.配置AOP：利用AOP的技术将事务应用在指定的方法上-->
+    <aop:config>
+        <!--告知spring哪些方法上配置事务-->
+        <aop:pointcut id="exp" expression="execution(* com.bjpowernode.service.impl.*Impl.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="exp"/>
+    </aop:config>
+
+    <!--开启注解式事务-->
+<!--    <tx:annotation-driven transaction-manager="transactionManager"/>-->
+</beans>

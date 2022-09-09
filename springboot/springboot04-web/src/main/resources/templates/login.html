@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>登陆页</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.4.1/css/bootstrap.min.css"
+          th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.min.css}">
+</head>
+<body>
+  <div style="text-align: center">
+      <h1>请登陆</h1>
+      <form th:action="@{/auth/login}" method="post" style="width: 350px;margin: 10px auto;">
+          <div style="color: red;font-size: 24px">[[${message}]]</div>
+          <div class="form-group">
+              <label>用户名</label>
+              <input type="text" name="username" class="form-control">
+          </div>
+          <div class="form-group">
+              <label>密码</label>
+              <input type="password" name="password" class="form-control">
+          </div>
+          <div class="form-group">
+              <button class="btn btn-primary btn-block">登陆</button>
+          </div>
+      </form>
+  </div>
+</body>
+</html>

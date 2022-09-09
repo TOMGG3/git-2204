@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+    <div style="text-align: center">
+        <h1>首页</h1>
+        <p>当前登陆用户：[[${session.loginUser}]]</p>
+        <p><a href="/show" th:href="@{/show}">成功</a></p>
+        <p><a href="/list" th:href="@{/list}">员工列表</a></p>
+        <p><a th:href="@{/auth/logout}">退出系统</a></p>
+    </div>
+</body>
+</html>

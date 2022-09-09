@@ -1,0 +1,16 @@
+#配置数据源
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db_bjpowernode
+    username: root
+    password: root
+    #切换数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    initial-size: 10
+    min-idle: 10
+    max-active: 50
+    max-wait: 60000
+    #开启监控: 监控stat，SQL防火墙wall，日志slf4j
+    filters: stat,wall,slf4j
+

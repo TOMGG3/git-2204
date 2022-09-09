@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>员工列表页</title>
+  <link rel="stylesheet" href="/webjars/bootstrap/3.4.1/css/bootstrap.min.css"
+                        th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.min.css}">
+</head>
+<body>
+    <div class="container-fluid">
+        <h1>员工列表</h1>
+        <table class="table table-bordered table-hover table-striped">
+            <tr>
+                <th>员工编号</th>
+                <th>员工姓名</th>
+                <th>员工岗位</th>
+                <th>入职日期</th>
+                <th>员工性别</th>
+                <th>员工性别2</th>
+                <th>操作</th>
+            </tr>
+            <!--for(Employee e : list){}-->
+            <tr th:each="emp : ${empList}">
+                <td>[[${emp.id}]]</td>
+                <td th:text="${emp.name}"></td>
+                <td th:text="${emp.job}"></td>
+                <td th:text="${#dates.format(emp.hiredate, 'yyyy-MM-dd')}"></td>
+                <td>
+                    <span th:if="${emp.gender=='1'}">男性</span>
+                    <span th:if="${emp.gender=='2'}">女性</span>
+                </td>
+                <td th:switch="${emp.gender}">
+                    <span th:case="'1'">帅哥</span>
+                    <span th:case="'2'">靓女</span>
+                </td>
+                <td>
+                    <a href="/get/1" th:href="@{'/get/' + ${emp.id}}" class="btn btn-warning btn-xs">编辑</a>&emsp;
+                    <a href="/query?id=1&name=tom" th:href="@{/query(id=${emp.id},name=${emp.name})}" class="btn btn-danger btn-xs">删除</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

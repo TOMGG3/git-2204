@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db_bjpowernode
+    username: root
+    password: root
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #在mybatis-plus中下划线转驼峰默认是开启的
+    map-underscore-to-camel-case: true
+  #全局配置
+  global-config:
+    #数据库相关配置
+    db-config:
+      #主键生成策略,默认为assign_id
+      id-type: assign_id
+      #表的前缀
+#      table-prefix: tbl_
+      #逻辑删除全局配置
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+#      logic-delete-field: delFlag

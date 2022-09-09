@@ -1,0 +1,5 @@
+#测试环境
+server:
+  port: 8002
+  servlet:
+    context-path: /test

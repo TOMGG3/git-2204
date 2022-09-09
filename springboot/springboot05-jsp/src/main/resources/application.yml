@@ -1,0 +1,6 @@
+#视图解析的前缀与后缀
+spring:
+  mvc:
+    view:
+      prefix: /pages/
+      suffix: .jsp

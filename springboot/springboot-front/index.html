@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <div style="text-align: center">
+      <h1>用户列表</h1>
+      <table border="1" width="350" align="center">
+          <thead>
+            <tr>
+                <th>编号</th>
+                <th>用户名</th>
+                <th>密码</th>
+            </tr>
+          </thead>
+          <tbody id="tab"></tbody>
+      </table>
+  </div>
+  <script type="text/javascript" src="js/jquery.js"></script>
+  <script type="text/javascript">
+      $(function (){
+        list();
+      });
+      function list(){
+        $.ajax('http://localhost:8080/web/user/list', {
+            type: 'get',
+            success: function (res) {
+                var str = '';
+                $.each(res, function (){
+                    str += '<tr>';
+                    str += '<td>' + this.id + '</td>';
+                    str += '<td>' + this.username + '</td>';
+                    str += '<td>' + this.password + '</td>';
+                    str += '</tr>';
+                });
+                $('#tab').html(str);
+            }
+        });
+      }
+  </script>
+</body>
+</html>

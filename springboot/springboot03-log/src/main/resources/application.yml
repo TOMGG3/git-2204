@@ -1,0 +1,14 @@
+##springboot??
+#logging:
+#  level:
+#    #??????
+#    root: info
+#    #??????
+#    com.bjpowernode.controller: trace
+#  pattern:
+#    console: "%d{yyyy-MM-dd HH:mm:ss SSS} %-5level [%thread] %logger --%msg%n"
+#  file:
+#    #?????????
+##    name: demo.log
+#    #????
+#    path: d:/log/

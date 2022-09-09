@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!--springboot通过maven父项目的方式引入的-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.6.11</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.bjpowernode</groupId>
+    <artifactId>springboot01-helloworld</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>springboot01-helloworld</name>
+    <description>springboot01-helloworld</description>
+    <!--打包方式为jar-->
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+    <dependencies>
+        <!--
+        SpringBoot项目的简化之一：maven简化
+        将一个模块封装在一个项目中，此项目被称为启动器starter
+        1.功能引入：spring ioc,spring web mvc,jackson, 内置web应用服务器tomcat,日志,单元测试....
+        2.自动配置：替代spring阶段的xml的
+
+        官方启动器：spring-boot-starter-模块名
+        第三方启动器：模块名-spring-boot-starter
+        -->
+        <!--核心依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--测试依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!--插件：springboot项目的专属打包插件-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

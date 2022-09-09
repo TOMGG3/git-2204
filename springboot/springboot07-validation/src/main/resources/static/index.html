@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <div style="text-align: center">
+      <h1>首页</h1>
+      <form action="/student/save" method="post" onsubmit="return checkForm()">
+          <p>
+              <label>姓名</label>
+              <input type="text" name="name" id="name">
+          </p>
+          <p>
+              <label>年龄</label>
+              <input type="text" name="age" id="age">
+          </p>
+          <p>
+              <label>邮箱</label>
+              <input type="text" name="email" id="email">
+          </p>
+          <p>
+              <button>提交</button>
+          </p>
+      </form>
+  </div>
+  <script type="text/javascript">
+      function checkForm(){
+          var name = document.querySelector('#name').value;
+          var age = document.querySelector('#age').value;
+          var email = document.querySelector('#email').value;
+          if(!name){
+              alert('姓名不能为空');
+              return false;
+          }
+          if(!age){
+              alert('年龄不能为空');
+              return false;
+          }
+          if(!email){
+              alert('邮箱不能为空');
+              return false;
+          }
+          return true;
+      }
+  </script>
+</body>
+</html>

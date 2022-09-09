@@ -1,0 +1,23 @@
+#自定义的swagger配置，不是swagger框架中自带
+swagger:
+  base-package: com.bjpowernode.controller
+  name: wangsen
+  url: https://gitee.com/
+  email: wangsen127@163.com
+  version: 1.0
+  group-name: powernode
+  title: "某某系统"
+  description: "某某系统swagger文档"
+  terms-of-service-url: https://gitee.com/
+  license: apache
+  license-url: https://gitee.com/
+spring:
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+    #解决swagger3.0版本与springboot整合时问题
+    pathmatch:
+      matching-strategy: ant_path_matcher

@@ -1,0 +1,8 @@
+spring:
+  mail:
+    #配置服务器qq：smtp.qq.com，网易163:smtp.163.com
+    host: smtp.qq.com
+    #授权码，邮箱->设置->账户->POP3/SMTP服务:开启服务后会获得权码
+    password: xxqlxceoibdnbice
+    username: 28718422@qq.com
+    default-encoding: UTF-8

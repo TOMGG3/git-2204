@@ -1,0 +1,54 @@
+#springboot的第二种配置文件
+#yaml 层级递进式键值对配置
+#myKey: myValue
+#层级：通过换行+空格,一级层级紧靠左侧，二级与一级之间必须有至少一个空格的距离（同层级必须对其），通常每个层级之间两个空格
+#level1:
+#  level21: aaa
+#  level22:
+#    level31: bbb
+#    level32: ccc
+#level1.level21=aaa
+#level1.level22.level31=bbb
+#level1.level22.level32=ccc
+
+#数据类型
+#1.简单值
+#注意：字符串中如果有特殊符号必须使用引号包裹
+name: 张三
+age: 10
+birthday: 1998/07/24
+gender: true
+obj: ~
+
+#数组，List集合，set集合
+#行内
+array1: [spring, springmvc, mybatis]
+array2:
+  - html
+  - css
+  - javascript
+
+#对象，Map集合
+student:
+  stu-name: 李四
+  age: 22
+  birth: 1997/06/10
+  hobby:
+    - football
+    - swimming
+    - games
+  address:
+    city: 郑州市
+    area: 金水区
+    street: 民航路
+
+#自带配置
+#server:
+#  port: 8080
+#  servlet:
+#    context-path: /web
+
+#激活profile环境配置
+spring:
+  profiles:
+    active: dev

@@ -1,0 +1,28 @@
+#配置数据源
+spring:
+  datasource:
+    #切换数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/db_bjpowernode
+      username: root
+      password: root
+      initial-size: 10
+      min-idle: 10
+      max-active: 50
+      max-wait: 60000
+      #开启监控: 监控stat，SQL防火墙wall，日志slf4j
+      filters: stat,wall,slf4j
+      #servlet
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: root
+        login-password: 123456
+      #filter
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: "/druid/*,*.js,*.css,*.jpg,*.png"
+

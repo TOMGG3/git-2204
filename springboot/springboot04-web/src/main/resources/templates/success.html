@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>成功页面</title>
+</head>
+<body>
+  <div style="text-align: center">
+      <h1>成功</h1>
+      <!--
+      通过动态属性来获取数据
+      th:text 从域对象中获取数据，并渲染到指定的标签中，对文本特殊符号进行转码
+      th:utext 从域对象中获取数据，并渲染到指定的标签中，对文本特殊符号不进行转码
+      -->
+      <p th:text="${msg}"></p>
+      <p th:text="${message}"></p>
+      <p th:utext="${message}"></p>
+      <p>[[${msg}]]</p>
+  </div>
+</body>
+</html>

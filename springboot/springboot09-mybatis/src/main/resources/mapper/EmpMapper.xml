@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.dao.EmpDao">
+
+    <select id="selectById" parameterType="int" resultType="emp">
+        select
+          empno,ename,job,mgr,hiredate,sal,comm,deptno
+        from emp
+        where empno = #{id}
+    </select>
+    <select id="select" resultType="com.bjpowernode.entity.Emp">
+        select
+            empno,ename,job,mgr,hiredate,sal,comm,deptno
+        from emp
+    </select>
+    <insert id="insert" parameterType="com.bjpowernode.entity.Emp" keyProperty="empno" useGeneratedKeys="true">
+        insert into emp(ename,job,mgr,hiredate,sal,comm,deptno)
+        values (#{ename}, #{job}, #{mgr}, #{hiredate}, #{sal}, #{comm}, #{deptno})
+    </insert>
+    <update id="update" parameterType="com.bjpowernode.entity.Emp">
+        update emp
+        <set>
+            <if test="ename != null and ename != ''">
+                ename = #{ename},
+            </if>
+            <if test="job != null and job != ''">
+                job = #{job},
+            </if>
+            <if test="mgr != null">
+                mgr = #{mgr},
+            </if>
+            <if test="hiredate != null">
+                hiredate = #{hiredate},
+            </if>
+            <if test="sal != null">
+                sal = #{sal},
+            </if>
+            <if test="comm != null">
+                comm = #{comm},
+            </if>
+            <if test="deptno != null">
+                deptno = #{deptno}
+            </if>
+        </set>
+        where empno = #{empno}
+    </update>
+    <delete id="deleteById" parameterType="int">
+        delete from emp where empno = #{id}
+    </delete>
+</mapper>
+

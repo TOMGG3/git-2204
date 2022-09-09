@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--事务管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--注入数据源对象-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--配置事务-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!--事务属性-->
+        <tx:attributes>
+            <tx:method name="select*" read-only="true" rollback-for="java.lang.Exception"/>
+            <tx:method name="list*" read-only="true" rollback-for="java.lang.Exception"/>
+            <tx:method name="page*" read-only="true" rollback-for="java.lang.Exception"/>
+            <tx:method name="get*" read-only="true" rollback-for="java.lang.Exception"/>
+            <tx:method name="find*" read-only="true" rollback-for="java.lang.Exception"/>
+            <tx:method name="query*" read-only="true" rollback-for="java.lang.Exception"/>
+            <tx:method name="insert*" rollback-for="java.lang.Exception"/>
+            <tx:method name="save*" rollback-for="java.lang.Exception"/>
+            <tx:method name="add*" rollback-for="java.lang.Exception"/>
+            <tx:method name="edit*" rollback-for="java.lang.Exception"/>
+            <tx:method name="update*" rollback-for="java.lang.Exception"/>
+            <tx:method name="delete*" rollback-for="java.lang.Exception"/>
+            <tx:method name="del*" rollback-for="java.lang.Exception"/>
+            <tx:method name="remove*" rollback-for="java.lang.Exception"/>
+            <tx:method name="*"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--配置AOP-->
+    <aop:config>
+        <aop:pointcut id="exp" expression="execution(* com.bjpowernode.service.impl.*Impl.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="exp"/>
+    </aop:config>
+</beans>

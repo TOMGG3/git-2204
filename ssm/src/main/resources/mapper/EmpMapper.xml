@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.dao.EmpDao">
+
+    <resultMap id="selectResultMap" type="com.bjpowernode.entity.Emp">
+        <id column="empno" property="empno"/>
+        <result column="ename" property="ename"/>
+        <result column="job" property="job"/>
+        <result column="mgr" property="mgr"/>
+        <result column="hiredate" property="hiredate"/>
+        <result column="sal" property="sal"/>
+        <result column="comm" property="comm"/>
+        <result column="deptno" property="deptno"/>
+        <association property="dept" javaType="com.bjpowernode.entity.Dept">
+            <id column="deptno" property="deptno"/>
+            <result column="dname" property="dname"/>
+            <result column="loc" property="loc"/>
+        </association>
+    </resultMap>
+    <select id="select" parameterType="com.bjpowernode.entity.Emp" resultMap="selectResultMap">
+        select empno, ename, job, mgr, hiredate, sal, comm, a.deptno, dname, loc
+        from emp a join dept b on a.deptno=b.deptno
+        <where>
+            <if test="ename != null and ename != ''">
+                ename like concat('%',#{ename},'%')
+            </if>
+            <if test="deptno != null">
+                and a.deptno = #{deptno}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectById" parameterType="int" resultType="com.bjpowernode.entity.Emp">
+        select empno, ename, job, mgr, hiredate, sal, comm, deptno from emp where empno=#{empno}
+    </select>
+
+    <insert id="insert" parameterType="com.bjpowernode.entity.Emp">
+        insert into emp(ename, job, mgr, hiredate, sal, comm, deptno)
+        values(#{ename}, #{job}, #{mgr}, #{hiredate}, #{sal}, #{comm}, #{deptno})
+    </insert>
+
+    <update id="update" parameterType="com.bjpowernode.entity.Emp">
+        update emp
+        <set>
+            <if test="ename!=null">
+                ename=#{ename},
+            </if>
+            <if test="job!=null">
+                job=#{job},
+            </if>
+            <if test="mgr!=null">
+                mgr=#{mgr},
+            </if>
+            <if test="hiredate!=null">
+                hiredate=#{hiredate},
+            </if>
+            <if test="sal!=null">
+                sal=#{sal},
+            </if>
+            <if test="comm!=null">
+                comm=#{comm},
+            </if>
+            <if test="deptno!=null">
+                deptno=#{deptno}
+            </if>
+        </set>
+        where empno=#{empno}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from emp where empno=#{empno}
+    </delete>
+
+    <delete id="deleteBatch" parameterType="int">
+        delete from emp where empno in
+        <foreach collection="array" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

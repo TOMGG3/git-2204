@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <!--
+            指令：html的动态属性，由Vue来解析的，所有指令都是以v-开头的
+
+            v-text: 将数据从model取出，并渲染到指定的标签中，替换字符串中特殊符号
+            v-html: 将数据从model取出，并渲染到指定的标签中，不会替换特殊符号原样展示
+        -->
+        <h1 v-text="message"></h1>
+        <p v-text="msg"></p>
+        <h1 v-html="message"></h1>
+        <p v-html="msg"></p>
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs',
+                msg: '<a href="#">超链接</a>'
+            }
+        });
+    </script>
+</body>
+</html>

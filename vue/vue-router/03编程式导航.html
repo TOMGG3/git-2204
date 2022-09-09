@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <h1>路由使用</h1>
+        <h2>声明式</h2>
+        <p>
+            <router-link to="/login">登陆</router-link>
+            <router-link to="/reg">注册</router-link>
+            <router-link to="/user">用户</router-link>
+            <router-link to="/stu">学生</router-link>
+        </p>
+        <h2>编程式</h2>
+        <p>
+            <button type="button" @click="doRedirect('login')">登陆按钮</button>
+            <button type="button" @click="doRedirect('reg')">注册按钮</button>
+            <button type="button" @click="doRedirect('user')">用户按钮</button>
+            <button type="button" @click="doRedirect('stu')">学生按钮</button>
+        </p>
+        <p>
+            <button type="button" @click="doBackward()">后退</button>
+            <button type="button" @click="doForward()">前进</button>
+        </p>
+        <router-view></router-view>
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript" src="./js/vue-router.js"></script>
+    <script type="text/javascript">
+        var login = {template: '<div> <h1>登陆组件</h1></div>'};
+        var register = {template: '<div> <h1>注册组件</h1></div>'};
+        var user = {template: '<div> <h1>用户组件{{$route.query}}</h1></div>'};
+        var student = {template: '<div> <h1>学生组件{{$route.params}}</h1></div>'};
+        var router = new VueRouter({
+            routes: [
+                //路由中可定义一个name属性，其值为当前目录的唯一名称
+                {path: '/login', name: 'login', component: login},
+                {path: '/reg', name: 'reg', component: register},
+                {path: '/user', name: 'user', component: user},
+                {path: '/stu', name: 'stu', component: student}
+            ]
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs'
+            },
+            methods: {
+                doRedirect(name){
+                    /**
+                     * 全局路由对象$router
+                     *
+                     * push() 路由导航，导航时会产生历史，在历史的列表添加一项
+                     * replace() 路由导航，在历史的列表中找到最后一项，并将其替换
+                     * go(数字) 历史切换,与history对象中go方法一致
+                     */
+                    // this.$router.push('/'+name);
+                    // this.$router.replace('/'+name);
+                    //1.query
+                    //路径+参数
+                    // this.$router.push({
+                    //     path: '/' + name,
+                    //     query: {
+                    //         id: 10,
+                    //         name: '张三'
+                    //     }
+                    // });
+                    //2.params
+                    //名称+参数
+                    this.$router.push({
+                        name: name,
+                        params: {
+                            id: 20,
+                            name: '李四'
+                        }
+                    });
+                },
+                doForward(){
+                    this.$router.go(1);
+                },
+                doBackward(){
+                    this.$router.go(-1);
+                }
+            },
+            router
+        });
+    </script>
+</body>
+</html>

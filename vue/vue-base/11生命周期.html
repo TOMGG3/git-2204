@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <p>{{ message }}</p>
+        <p><button type="button" @click="message += '2022'">按钮</button></p>
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs'
+            },
+            methods: {
+                myFun(){
+                    console.log('函数1....');
+                }
+            },
+            //生命周期钩子函数
+            //第一个大阶段：初始化
+            beforeCreate(){
+                console.log('beforeCreate...');
+                //vue对象已经创建，但是data数据与methods函数没有初始化
+                console.log(this.message);
+                // this.myFun();
+            },
+            created(){
+                console.log('created...');
+                //data数据与methods函数已经初始化完成
+                console.log(this.message);
+                this.myFun();
+            },
+            beforeMount(){
+                console.log('beforeMount...');
+                //挂载：解析模板（html中动态内容替换成静态数据）
+                // document.querySelectorAll()
+                var dom = document.querySelector('#app > p');
+                console.log(dom.innerHTML);
+                //模板没有被解析
+            },
+            mounted(){
+                console.log('mounted...');
+                var dom = document.querySelector('#app > p');
+                console.log(dom.innerHTML);
+                //模板已经解析完成
+            },
+            //第二个大阶段：vue对象运行阶段
+            beforeUpdate(){
+                console.log('beforeUpdate...');
+                console.log('data:', this.message);
+                var dom = document.querySelector('#app > p');
+                console.log('html:', dom.innerHTML);
+                //data数据已经变化，但没有渲染到页面
+            },
+            updated(){
+                console.log('updated...');
+                console.log('data:', this.message);
+                var dom = document.querySelector('#app > p');
+                console.log('html:', dom.innerHTML);
+                //data数据已经变化，已经渲染到页面
+            },
+            beforeDestroy(){
+            },
+            destroyed(){
+            }
+        });
+    </script>
+</body>
+</html>

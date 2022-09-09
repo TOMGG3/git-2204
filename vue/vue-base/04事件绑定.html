@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <!--
+        事件绑定指令v-on
+        v-on:事件名称="函数名称"
+        如果函数没有参数，参数小括号可以省略
+        事件名称：click,focus,blur,change,dbclick,load...
+
+        简化
+        v-on: ===> @
+        -->
+        <p><button type="button" v-on:click="myFun1">按钮1</button></p>
+        <p><button type="button" @click="myFun2">按钮2</button></p>
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs'
+            },
+            //事件函数
+            methods: {
+                myFun1: function (){
+                    console.log('函数1执行了....');
+                },
+                //简化写法
+                myFun2(){
+                    //在函数中可以使用data中的数据，调用其他函数，必须使用this关键字调用
+                    //this在函数中表示Vue对象
+                    console.log('函数2执行了....' + this.message);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <!--vuejs的组件是一种对html内容和js代码封装和复用-->
+        <!--组件的使用：以html标签的形式，组件名为html标签名称-->
+        <login></login>
+        <login></login>
+        <register></register>
+        <tabs></tabs>
+        <tabs></tabs>
+        <tabs></tabs>
+        <tabs></tabs>
+    </div>
+    <!--组件的html模板-->
+    <template id="tabs">
+        <div>
+            <table border="1" width="300">
+                <tr>
+                    <th>表头1</th>
+                    <th>表头2</th>
+                    <th>表头3</th>
+                </tr>
+                <tr>
+                    <td>数据11</td>
+                    <td>数据12</td>
+                    <td>数据13</td>
+                </tr>
+                <tr>
+                    <td>数据21</td>
+                    <td>数据22</td>
+                    <td>数据23</td>
+                </tr>
+            </table>
+        </div>
+    </template>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        /**
+         * 组件全局定义
+         * Vue.component(组件名称, 组件的配置)
+         */
+        Vue.component('login', {
+            //html模板
+            template: '<div><h1>用户登陆组件</h1></div>'
+        });
+        var register = Vue.extend({
+            //html模板
+            template: '<div><h1>用户注册组件</h1></div>'
+        });
+        Vue.component('register', register);
+        Vue.component('tabs', {
+            template: '#tabs'
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs'
+            }
+        });
+    </script>
+</body>
+</html>

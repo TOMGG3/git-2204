@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <h1>路由使用</h1>
+        <!--
+        传参方式：
+        1.路径拼接传参
+        2.路径传参
+        -->
+        <router-link to="/login?username=tom&password=123">登陆</router-link>
+        <router-link to="/reg/10/zhangsan">注册</router-link>
+        <router-view></router-view>
+    </div>
+    <template id="login">
+        <div>
+            <!--
+            在Vue对象挂载了中有两个核心对象
+            $router全局路由对象，它表示VueRouter对象
+            $route单个路由对象，它表示当前路由跳转对象
+
+            在$route对象下有两个属性：
+            1.query 对应路径拼接传参
+            2.params 对应路径传参
+            -->
+            <h1>登陆组件</h1>
+            <p>{{$route.query}}</p>
+            <p>{{$route.query.username}}</p>
+            <p>{{$route.query.password}}</p>
+        </div>
+    </template>
+    <template id="reg">
+        <div>
+            <h1>注册组件</h1>
+            <p>{{$route.params}}</p>
+            <p>{{$route.params.id}}</p>
+            <p>{{$route.params.username}}</p>
+        </div>
+    </template>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript" src="./js/vue-router.js"></script>
+    <script type="text/javascript">
+        var login = {template: '#login'};
+        var register = {template: '#reg'};
+        var router = new VueRouter({
+            routes: [
+                {path: '/login', component: login},
+                {path: '/reg/:id/:username', component: register}
+            ]
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs'
+            },
+            //3.在vue对象中设置路由
+            router
+        });
+    </script>
+</body>
+</html>

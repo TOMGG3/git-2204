@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <h1>路由使用</h1>
+        <!--
+        路由导航标签<router-link>,它会被vue解析为一个超链接
+        路由出口标签<router-view>,点击导航标签之后，组件渲染的位置
+        -->
+        <router-link to="/login">登陆</router-link>
+        <router-link to="/reg">注册</router-link>
+        <router-view></router-view>
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript" src="./js/vue-router.js"></script>
+    <script type="text/javascript">
+        /**
+         * 路由：组件跳转，组件切换；数据传递
+         */
+        //1.定义组件
+        var login = {template: '<div><h1>登陆组件</h1></div>'};
+        var register = {template: '<div><h1>注册组件</h1></div>'};
+        //2.定义路由
+        var router = new VueRouter({
+            //路由列表：路径与组件的对应关系
+            routes: [
+                /**
+                 * 单个路由
+                 * path: 路由路径字符串，值以斜杠开头
+                 * component: 路径对应的组件
+                 */
+                {path: '/login', component: login},
+                {path: '/reg', component: register}
+            ]
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs'
+            },
+            //3.在vue对象中设置路由
+            router
+        });
+    </script>
+</body>
+</html>

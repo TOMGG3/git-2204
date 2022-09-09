@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <h2>父组件中的数据：{{message}}</h2>
+    <p><button type="button" @click="message += '2022'">修改父组件中的message</button></p>
+    <!--
+    在父传子的属性上定义一个关键字(修饰符).sync
+    -->
+    <sub-component :msg.sync="message" @demo="refreshTable"></sub-component>
+</div>
+<template id="sub">
+    <div>
+        <h2>子组件中的数据：{{username}}</h2>
+        <h2>子组件接收父组件传递的数据：{{msg}}</h2>
+        <p><button type="button" @click="myFun">调用父组件的函数</button></p>
+        <p><button type="button" @click="changeMsg">修改msg</button></p>
+    </div>
+</template>
+<script type="text/javascript" src="./js/vue.js"></script>
+<script type="text/javascript">
+    var subComponent = {
+        template: '#sub',
+        data(){
+            return {
+                username: 'tom'
+            }
+        },
+        methods: {
+            myFun(){
+                console.log('子组件内部函数执行...');
+                this.$emit('demo','jerry');
+            },
+            changeMsg(){
+                /**
+                 * 因为在vue中父子组件数据传输为单向传递，仅能父传子，而不能子传父
+                 * 而且不推荐修改props中的数据
+                 *
+                 * 使用“触发调用函数”+.sync修饰符来实现子传父
+                 */
+                // console.log(this.msg);
+                // this.msg = this.msg + '123abc';
+                this.$emit('update:msg', '你好 vue');
+            }
+        },
+        props: ['msg']
+    };
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            message: 'hello vuejs'
+        },
+        components: {
+            subComponent
+        },
+        methods: {
+            refreshTable(name){
+                console.log('刷新表格...' + name);
+            }
+        }
+    });
+</script>
+</body>
+</html>

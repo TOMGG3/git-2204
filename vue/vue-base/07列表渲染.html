@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="name in nameList">{{name}}</li>
+        </ul>
+        <hr>
+        <ul>
+            <li v-for="name of nameList">{{name}}</li>
+        </ul>
+        <hr>
+        <ul>
+            <li v-for="(name,index) in nameList">{{name}}--{{index}}</li>
+        </ul>
+        <hr>
+        <ul>
+            <li v-for="(name,index) in nameList" :key="index">{{name}}--{{index}}</li>
+        </ul>
+        <hr>
+        <table border="1" width="500" align="center">
+            <tr>
+                <th>编号</th>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>成绩</th>
+            </tr>
+            <tr v-for="student in studentList" :key="student.id">
+                <td>{{student.id}}</td>
+                <td v-text="student.name"></td>
+                <td v-text="student.age"></td>
+                <td v-text="student.score"></td>
+            </tr>
+        </table>
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs',
+                nameList: ['张三','李四','王五','赵柳','小七'],
+                studentList: [
+                    {id: 101, name: '小明', age: 20, score: 85},
+                    {id: 102, name: '小红', age: 22, score: 93},
+                    {id: 103, name: '小强', age: 21, score: 76},
+                    {id: 104, name: '小张', age: 25, score: 82},
+                    {id: 105, name: '小莉', age: 23, score: 59}
+                ]
+            }
+        });
+    </script>
+</body>
+</html>

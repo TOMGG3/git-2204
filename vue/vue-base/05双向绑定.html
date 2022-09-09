@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <!--
+        数据双向绑定指令：v-model="data中的数据"
+        技能用在表单元素上，文本框、密码框、多行文本框、单选按钮、复选框、下拉列表...
+
+        v-model指令称为语法糖，v-bind:value  v-on:change
+        -->
+        <h1>文本框</h1>
+        <p><input type="text" v-model="message"></p>
+        <p><textarea cols="30" rows="10" v-model="message"></textarea></p>
+        <p>data中的数据：{{message}}</p>
+        <h1>单选按钮</h1>
+        <p>
+            <label><input type="radio" name="gender" value="male" v-model="gender">男性</label>
+            <label><input type="radio" name="gender" value="female" v-model="gender">女性</label>
+        </p>
+        <p>data中的数据：{{gender}}</p>
+        <h1>复选框</h1>
+        <!--
+        两种用法：
+        1.单用,其值为boolean类型
+        2.多用,其值为数组类型
+        -->
+        <p>
+            <label><input type="checkbox" v-model="login">十天内免登陆</label>
+        </p>
+        <p>data中的数据：{{login}}</p>
+        <p>
+            <label><input type="checkbox" name="hobby" value="zuqiu" v-model="hobbys">足球</label>
+            <label><input type="checkbox" name="hobby" value="lanqiu" v-model="hobbys">篮球</label>
+            <label><input type="checkbox" name="hobby" value="ppq" v-model="hobbys">乒乓球</label>
+            <label><input type="checkbox" name="hobby" value="ymq" v-model="hobbys">羽毛球</label>
+        </p>
+        <p>data中的数据：{{hobbys}}</p>
+        <h1>下拉列表</h1>
+        <p>
+            <select v-model="edu">
+                <option value=""></option>
+                <option value="1">小学</option>
+                <option value="2">初中</option>
+                <option value="3">高中</option>
+                <option value="4">大学</option>
+            </select>
+        </p>
+        <p>data中的数据：{{edu}}</p>
+        <p>
+            <select v-model="array" multiple>
+                <option value="aa">选项1</option>
+                <option value="bb">选项2</option>
+                <option value="cc">选项3</option>
+                <option value="dd">选项4</option>
+                <option value="ee">选项5</option>
+            </select>
+        </p>
+        <p>data中的数据：{{array}}</p>
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs',
+                gender: 'female',
+                login: true,
+                hobbys: ['zuqiu','ppq'],
+                edu: '3',
+                array: []
+            }
+        });
+    </script>
+</body>
+</html>

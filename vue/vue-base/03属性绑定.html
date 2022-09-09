@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <!--
+        属性绑定：在html的属性添加动态数据
+        v-bind指令
+        v-bind:HTML的原生属性名称="data中的数据名称"
+
+        简化:
+        v-bind:  ===> :
+        -->
+        <h1 title="你好">{{message}}</h1>
+        <h1 v-bind:title="msg">{{message}}</h1>
+        <p :title="msg">{{message}}</p>
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs',
+                msg: '你好123'
+            }
+        });
+    </script>
+</body>
+</html>

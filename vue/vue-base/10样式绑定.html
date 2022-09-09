@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        .red{
+            color: red;
+        }
+        .size{
+            font-size: 30px;
+        }
+        .back{
+            background-color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>内联样式</h1>
+        <div style="color: red;font-size: 25px;background-color: green;">{{message}}</div>
+        <h1>样式类</h1>
+        <div class="back size red">{{message}}</div>
+        <h2>对象</h2>
+        <div :class="{red: true,size: true,back: false}">{{message}}</div>
+        <div :class="obj">{{message}}</div>
+        <h2>数组</h2>
+        <div :class="['red','size',flag?'back':'']">{{message}}</div>
+        <p><button type="button" @click="flag = !flag">按钮</button></p>
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs',
+                obj: {
+                    red: true,
+                    size: true,
+                    back: true
+                },
+                flag: true
+            }
+        });
+    </script>
+</body>
+</html>

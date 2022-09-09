@@ -1,0 +1,11 @@
+<template>
+<!--html代码区域-->
+</template>
+<script>
+//js代码区域
+</script>
+<style>
+/*
+css代码区域
+*/
+</style>

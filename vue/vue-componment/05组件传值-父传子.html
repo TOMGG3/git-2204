@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <h2>父组件中的数据：{{message}}</h2>
+        <p><button type="button" @click="message += '2022'">修改父组件中的message</button></p>
+        <!--
+        传递：
+        在父组件中使用子组件时通过子组件标签属性来进行传递数据与函数
+        传递数据：
+        v-bind:子组件内部定义的接收变量名="父组件中的数据名"
+        传递函数:
+        v-on:在子组件内部调用函数时的名称="父组件中的函数名"
+        -->
+<!--        <sub-component v-bind:msg="message" v-on:demo="refreshTable"></sub-component>-->
+        <sub-component :msg="message" @demo="refreshTable"></sub-component>
+    </div>
+    <template id="sub">
+        <div>
+            <h2>子组件中的数据：{{username}}</h2>
+            <h2>子组件接收父组件传递的数据：{{msg}}</h2>
+            <p><button type="button" @click="myFun">调用父组件的函数</button></p>
+        </div>
+    </template>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        /*
+            父组件中的数据不能直接在子组件中使用，子组件中的数据也不能直接在父组件中使用
+            组件传值:将数据从一个组件传递到另一个组件中
+            1.父子传值
+            2.路由传值
+            3.借助缓存传值
+            4.借助vuex传值
+        */
+        //子组件
+        var subComponent = {
+            template: '#sub',
+            data(){
+                return {
+                    username: 'tom'
+                }
+            },
+            methods: {
+                myFun(){
+                    console.log('子组件内部函数执行...');
+                    /**
+                     * 在子组件内部通过“触发调用函数”，来调用父组件传递的函数
+                     */
+                    this.$emit('demo','jerry');
+                }
+            },
+            /**
+             * 接收
+             * 在子组件中通过props配置来接收父组件传递的数据的
+             * props的值
+             * 1.数组,数组中存放的字符串即变量名称
+             * 2.对象,属性名为变量名称，属性值为变量类型
+             */
+            // props: ['msg']
+            props: {
+                msg: String,
+                age: Number
+            }
+        };
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs'
+            },
+            components: {
+                subComponent
+            },
+            methods: {
+                refreshTable(name){
+                    console.log('刷新表格...' + name);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

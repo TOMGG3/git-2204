@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <my-main></my-main>
+<!--        <studentList></studentList>-->
+        <student-list></student-list>
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        /**
+         * 组件命名规则
+         * 1.不能与html原生标签名冲突
+         * 2.名称为多单词
+         *    1）中划线间隔：my-main, list-nav, user-add
+         *    2）驼峰：myMain, listNav, userAdd, studentList
+         * 注意：1.组件无论定义的名称为中划线还是驼峰，在使用时，都必须使用中划线来使用
+         *      2.组件的html内容仅能有一个根标签，因为第二个标签不会被渲染
+         */
+        Vue.component('my-main', {
+            template: '<div><h1>我的主页组件</h1></div><div>组件第二个根标签</div>'
+        });
+        //studentlist
+        Vue.component('studentList', {
+            template: '<div><h1>学生表格组件</h1></div>'
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs'
+            }
+        });
+    </script>
+</body>
+</html>

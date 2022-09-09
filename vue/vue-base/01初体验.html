@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <!--View视图：类似于Java后台的模板引擎-->
+    <div id="app">
+        <!--插值表达式：由vue对象解析数据，从model中将数据取出，并且渲染到指定的位置-->
+        {{ message }} -- {{num}}
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        //创建vuejs核心对象
+        //Vue对象就是ViewModel
+        var vm = new Vue({
+            //vm对象管理的html
+            el: '#app',
+            //data就是模型数据Model，它本身是一个字面量对象
+            //其中字面量对象的属性名即数据名，属性值就是数据值
+            data: {
+                //String
+                message: 'hello vuejs',
+                //Number
+                num: 20,
+                //Boolean
+                flag: true,
+                //Array
+                list: ['aa','bb','cc'],
+                //Object
+                obj: {
+                    name: '张三',
+                    age: 18
+                }
+            }
+        });
+    </script>
+</body>
+</html>

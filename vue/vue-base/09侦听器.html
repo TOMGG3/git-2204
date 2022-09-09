@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <p>姓名：<input type="text" v-model="name"></p>
+        <p>{{name}}</p>
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs',
+                name: ''
+            },
+            //侦听器：监听data中数据变化的函数
+            watch: {
+                /**
+                 * 侦听函数
+                 * 名称：必须与要侦听的数据名一致
+                 * 参数：1.数据变化之后的值，新数据
+                 *      2.数据变化之前的值，老数据
+                 */
+                name: function(newVal, oldVal){
+                    console.log('新数据：', newVal);
+                    console.log('老数据：', oldVal);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

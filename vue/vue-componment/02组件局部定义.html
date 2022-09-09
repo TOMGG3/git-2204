@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <pageheader></pageheader>
+        <pagefooter></pagefooter>
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        var pageheader = {
+            template: '<div><h1>页面顶部组件</h1></div>'
+        };
+        var pagefooter = {
+            template: '<div><h1>页面底部组件</h1></div>'
+        };
+        //vue对象父组件
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs'
+            },
+            //注册组件
+            //注册到vue对象下的组件，也叫子组件
+            components: {
+                pageheader: pageheader,
+                //字面量对象的属性的简化，如果属性名与数值对应变量名称一致，即可简化
+                pagefooter
+            }
+        });
+    </script>
+</body>
+</html>

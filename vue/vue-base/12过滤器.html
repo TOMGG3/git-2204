@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <!--使用-->
+        <p>{{ message }}</p>
+        <p>{{ message | msgFormat1 }}</p>
+        <p>{{ message | msgFormat2 }}</p>
+        <p>{{ message | msgFormat3('javascript') }}</p>
+        <p>{{ message | msgFormat4('html', 'css') }}</p>
+        <p>{{ message | msgFormat }}</p>
+    </div>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript">
+        /**
+         * 过滤器：处理数据，数据格式化
+         * 1.全局定义
+         * Vue.filter(过滤器名称, 过滤函数(源数据,传入参数1,传入参数2...){})
+         */
+        Vue.filter('msgFormat1', function (source){
+            //过滤函数的返回值为处理之后的结果
+            return source + '123';
+        });
+        Vue.filter('msgFormat2', function (source){
+            // return source.replace('vuejs', 'java');
+            return source.replace(/vuejs/ig, 'java');
+        });
+        Vue.filter('msgFormat3', function (source, param){
+            return source.replace(/vuejs/ig, param);
+        });
+        Vue.filter('msgFormat4', function (source, param1, param2){
+            return source.replace(/vuejs/ig, param1 + '和' + param2);
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello Vuejs, hello vuejs'
+            },
+            //2.局部定义
+            filters: {
+                //过滤函数
+                msgFormat(source){
+                    return source + '2022';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

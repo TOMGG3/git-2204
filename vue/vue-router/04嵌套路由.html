@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">
+        <h1>路由使用</h1>
+        <router-link to="/login">登陆</router-link>
+        <router-link to="/main">主页</router-link>
+        <router-view></router-view>
+    </div>
+    <template id="main">
+        <div>
+            <h2>导航</h2>
+            <p>
+                <router-link to="/main/user">用户</router-link>
+                <router-link to="/main/emp">员工</router-link>
+                <router-link to="/main/dept">部门</router-link>
+            </p>
+            <p>
+                <!--嵌套路由出口-->
+                <router-view></router-view>
+            </p>
+        </div>
+    </template>
+    <script type="text/javascript" src="./js/vue.js"></script>
+    <script type="text/javascript" src="./js/vue-router.js"></script>
+    <script type="text/javascript">
+        var login = {template: '<div><h1>登陆组件</h1></div>'};
+        var main = {template: '#main'};
+        var user = {template: '<div><h1>用户组件</h1></div>'};
+        var emp = {template: '<div><h1>员工组件</h1></div>'};
+        var dept = {template: '<div><h1>部门组件</h1></div>'};
+        var router = new VueRouter({
+            //默认hash模式，history历史
+            mode: 'history',
+            routes: [
+                {path: '/login', name: 'login', component: login},
+                {
+                    path: '/main',
+                    name: 'main',
+                    component: main,
+                    //重定向
+                    redirect: '/main/emp',
+                    //嵌套路由，子路由列表
+                    children: [
+                        //嵌套路由的路径1.绝对路径:以斜巷开头
+                        //2.相对路径：相对于父路由路径，不以斜巷开头（父路径+子路径）
+                        {path: 'user', name: 'user', component: user},
+                        {path: 'emp', name: 'emp', component: emp},
+                        {path: 'dept', name: 'dept', component: dept}
+                    ]
+                }
+            ]
+        });
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: 'hello vuejs'
+            },
+            router
+        });
+    </script>
+</body>
+</html>

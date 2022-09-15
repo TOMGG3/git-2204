@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.dao.SysRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.bjpowernode.entity.SysRole">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="rolename" column="rolename" jdbcType="VARCHAR"/>
+            <result property="createUser" column="create_user" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateUser" column="update_user" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="del" column="del" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,rolename,create_user,
+        create_time,update_user,update_time,
+        del
+    </sql>
+
+    <resultMap id="SelectVoByIdResultMap" type="com.bjpowernode.entity.SysRole" extends="BaseResultMap">
+        <collection property="permissionIdList" ofType="int">
+            <constructor>
+                <arg column="permission_id"/>
+            </constructor>
+        </collection>
+    </resultMap>
+    <select id="selectVoById" parameterType="int" resultMap="SelectVoByIdResultMap">
+        select id,rolename,b.permission_id
+        from t_sys_role a left join t_sys_role_permission b on a.id = b.role_id
+        where id=#{id} and a.del=0
+    </select>
+    <insert id="insertRolePermission" parameterType="com.bjpowernode.entity.SysRole">
+        insert into t_sys_role_permission(role_id, permission_id)
+        <foreach collection="permissionIdList" open=" values" separator="," item="permissionId">
+            (#{id}, #{permissionId})
+        </foreach>
+    </insert>
+    <delete id="deleteRolePermission" parameterType="int">
+        delete from t_sys_role_permission where role_id=#{roleId}
+    </delete>
+    <select id="selectByUserId" parameterType="int" resultType="com.bjpowernode.entity.SysRole">
+        select id,rolename
+        from t_sys_role a join t_sys_user_role b on a.id=b.role_id
+        where b.user_id=#{userId}
+    </select>
+</mapper>

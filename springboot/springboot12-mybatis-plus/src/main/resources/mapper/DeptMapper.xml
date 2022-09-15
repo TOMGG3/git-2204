@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.mapper.DeptMapper">
+
+    <resultMap id="BaseResultMap" type="com.bjpowernode.entity.Dept">
+            <id property="deptno" column="DEPTNO" jdbcType="INTEGER"/>
+            <result property="dname" column="DNAME" jdbcType="VARCHAR"/>
+            <result property="loc" column="LOC" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        DEPTNO,DNAME,LOC
+    </sql>
+</mapper>

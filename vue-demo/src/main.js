@@ -1,8 +1,15 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
+//导入封装号的axios工具
+import request from '@/utils/request'
+//导入ElementUI对象
+import ElementUI from 'element-ui';
+//导入ELementUI的核心样式文件
+import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false
+Vue.use(ElementUI);
 
 //使用用户模块中封装的数据
 //1.导入:目录src可使用@替代，js后缀可省略，如果导入的文件是某个目录中index.js，文件名也可省略
@@ -16,6 +23,9 @@ login();
 console.log('用户对象中的用户名：', user.username);
 console.log('用户对象中的密码：', user.password);
 user.login();
+
+//将封装号的axios挂载到Vue对象下
+Vue.prototype.$ajax=request;
 
 new Vue({
   router,

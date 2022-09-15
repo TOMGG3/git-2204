@@ -1,0 +1,6 @@
+#配置登陆时用户名和密码
+spring:
+  security:
+    user:
+      name: admin
+      password: 123456

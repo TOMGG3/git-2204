@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.dao.SysUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.bjpowernode.entity.SysUser">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="username" column="username" jdbcType="VARCHAR"/>
+            <result property="mobile" column="mobile" jdbcType="VARCHAR"/>
+            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+            <result property="email" column="email" jdbcType="VARCHAR"/>
+            <result property="gender" column="gender" jdbcType="CHAR"/>
+            <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+            <result property="userpwd" column="userpwd" jdbcType="VARCHAR"/>
+            <result property="userType" column="user_type" jdbcType="CHAR"/>
+            <result property="createUser" column="create_user" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateUser" column="update_user" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="status" column="status" jdbcType="CHAR"/>
+            <result property="del" column="del" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,username,mobile,
+        nickname,email,gender,
+        avatar,userpwd,user_type,
+        create_user,create_time,update_user,
+        update_time,status,del
+    </sql>
+
+    <resultMap id="SelectVoByIdResultMap" type="com.bjpowernode.entity.SysUser" extends="BaseResultMap">
+        <collection property="roleIdList" ofType="int">
+            <!--表示表中某一个字段的值放入到指定的集合中-->
+            <constructor>
+                <arg column="role_id"/>
+            </constructor>
+        </collection>
+    </resultMap>
+    <select id="selectVoById" parameterType="int" resultMap="SelectVoByIdResultMap">
+        select id,username,mobile,nickname,email,gender,avatar,userpwd,user_type,status,b.role_id
+        from t_sys_user a left join t_sys_user_role b on a.id = b.user_id
+        where id=#{id} and a.del=0
+    </select>
+    <insert id="insertUserRole" parameterType="com.bjpowernode.entity.SysUser">
+        <!--
+        {
+            id: 2,
+            roleIdList: [10,20,30]
+        }
+        insert into t_sys_user_role(user_id, role_id)
+        values(2, 10),(2, 20),(2, 30)
+        -->
+        insert into t_sys_user_role(user_id, role_id)
+        <foreach collection="roleIdList" open=" values" separator="," item="roleId">
+            (#{id}, #{roleId})
+        </foreach>
+    </insert>
+    <delete id="deleteUserRole" parameterType="int">
+        delete from t_sys_user_role where user_id=#{userId}
+    </delete>
+</mapper>

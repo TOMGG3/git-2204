@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bjpowernode.dao.SysPermissionMapper">
+
+    <resultMap id="BaseResultMap" type="com.bjpowernode.entity.SysPermission">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="type" column="type" jdbcType="CHAR"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="icon" column="icon" jdbcType="VARCHAR"/>
+            <result property="percode" column="percode" jdbcType="VARCHAR"/>
+            <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+            <result property="sort" column="sort" jdbcType="INTEGER"/>
+            <result property="createUser" column="create_user" jdbcType="VARCHAR"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateUser" column="update_user" jdbcType="VARCHAR"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+            <result property="del" column="del" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,type,
+        url,icon,percode,
+        parent_id,sort,create_user,
+        create_time,update_user,update_time,
+        del
+    </sql>
+    <select id="selectPageVo" resultType="com.bjpowernode.entity.SysPermission">
+        select a.id,a.name,a.type,a.url,a.icon,a.percode,a.parent_id,a.sort,b.name parent_name
+        from t_sys_permission a left join t_sys_permission b on a.parent_id=b.id
+        <where>
+            a.del=0
+            <if test="entity.name != null and entity.name != ''">
+                and a.name like concat('%',#{entity.name},'%')
+            </if>
+            <if test="entity.type != null and entity.type != ''">
+                and a.type=#{entity.type}
+            </if>
+        </where>
+    </select>
+    <select id="selectByUserId" parameterType="int" resultType="com.bjpowernode.entity.SysPermission">
+        select distinct id,name,type,url,icon,parent_id,percode
+        from t_sys_permission a join t_sys_role_permission b on a.id=b.permission_id
+        join t_sys_user_role c on b.role_id=c.role_id
+        where c.user_id=#{userId}
+    </select>
+</mapper>

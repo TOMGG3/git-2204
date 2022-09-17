@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -34,32 +35,39 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler authenticationSuccessHandler;
     @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
+    /**
+     * 注入查询用户的服务对象
+     */
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     /**
      * 配置Security登陆用户的信息
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        //配置自定义的UserDetailsService实现来获取用户信息
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
         //配置模拟数据：在内存中配置用户信息
-        auth.inMemoryAuthentication()
-                .withUser("admin")
-                .password(passwordEncoder().encode("123"))
-                //Authority在框架分为两种：角色，权限
-                //配置角色
-                //如果为用户配置角色，那么系统会在角色的名称字符串前追加一个ROLE_前缀，表示当前权限为角色型权限
-                .roles("ADMIN","MANAGER","STUDENT")
-                //配置权限
-                //权限字符串，模块名称:操作名称
-                .authorities("sys:query", "sys:save", "sys:update", "sys:remove")
-                .and()
-                .withUser("tom")
-                .password(passwordEncoder().encode("111"))
-                .roles("MANAGER")
-                .authorities("sys:query", "sys:save")
-                .and()
-                .withUser("jerry")
-                .password(passwordEncoder().encode("222"))
-                .roles("STUDENT");
+//        auth.inMemoryAuthentication()
+//                .withUser("admin")
+//                .password(passwordEncoder().encode("123"))
+//                //Authority在框架分为两种：角色，权限
+//                //配置角色
+//                //如果为用户配置角色，那么系统会在角色的名称字符串前追加一个ROLE_前缀，表示当前权限为角色型权限
+//                .roles("ADMIN","MANAGER","STUDENT")
+//                //配置权限
+//                //权限字符串，模块名称:操作名称
+//                .authorities("sys:query", "sys:save", "sys:update", "sys:remove")
+//                .and()
+//                .withUser("tom")
+//                .password(passwordEncoder().encode("111"))
+//                .roles("MANAGER")
+//                .authorities("sys:query", "sys:save")
+//                .and()
+//                .withUser("jerry")
+//                .password(passwordEncoder().encode("222"))
+//                .roles("STUDENT");
     }
 
     /**
